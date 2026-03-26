@@ -136,6 +136,118 @@ strong and certain.
 
 # Part 3
 
+## Exercise 1
+
+The reference level is female. The mean difference in evaluation scores
+indicates that the mean score male professor is 0.142 point higher than
+that of female professors.
+
+``` r
+m_gen <- lm(score ~ gender, data = evals)
+tidy(m_gen)
+```
+
+    ## # A tibble: 2 × 5
+    ##   term        estimate std.error statistic p.value
+    ##   <chr>          <dbl>     <dbl>     <dbl>   <dbl>
+    ## 1 (Intercept)    4.09     0.0387    106.   0      
+    ## 2 gendermale     0.142    0.0508      2.78 0.00558
+
+``` r
+evals$rank_relevel <- relevel(evals$rank, ref = "tenure track")
+evals$tenure_eligible <- ifelse(evals$rank == "teaching", "no", "yes")
+```
+
+## Exercise 2
+
+``` r
+m_rank <- lm(score ~ rank, data = evals)
+m_relevel <- lm(score ~ rank_relevel, data = evals)
+m_tenure <- lm(score ~ tenure_eligible, data = evals)
+```
+
+## Exercise 3
+
+Teaching faculty receives higher scores. Tenured faculty receoives lower
+scores.
+
+``` r
+summary(m_rank)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = score ~ rank, data = evals)
+    ## 
+    ## Residuals:
+    ##     Min      1Q  Median      3Q     Max 
+    ## -1.8546 -0.3391  0.1157  0.4305  0.8609 
+    ## 
+    ## Coefficients:
+    ##                  Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)       4.28431    0.05365  79.853   <2e-16 ***
+    ## ranktenure track -0.12968    0.07482  -1.733   0.0837 .  
+    ## ranktenured      -0.14518    0.06355  -2.284   0.0228 *  
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 0.5419 on 460 degrees of freedom
+    ## Multiple R-squared:  0.01163,    Adjusted R-squared:  0.007332 
+    ## F-statistic: 2.706 on 2 and 460 DF,  p-value: 0.06786
+
+``` r
+summary(m_relevel)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = score ~ rank_relevel, data = evals)
+    ## 
+    ## Residuals:
+    ##     Min      1Q  Median      3Q     Max 
+    ## -1.8546 -0.3391  0.1157  0.4305  0.8609 
+    ## 
+    ## Coefficients:
+    ##                      Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)           4.15463    0.05214  79.680   <2e-16 ***
+    ## rank_relevelteaching  0.12968    0.07482   1.733   0.0837 .  
+    ## rank_releveltenured  -0.01550    0.06228  -0.249   0.8036    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 0.5419 on 460 degrees of freedom
+    ## Multiple R-squared:  0.01163,    Adjusted R-squared:  0.007332 
+    ## F-statistic: 2.706 on 2 and 460 DF,  p-value: 0.06786
+
+``` r
+summary(m_tenure)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = score ~ tenure_eligible, data = evals)
+    ## 
+    ## Residuals:
+    ##     Min      1Q  Median      3Q     Max 
+    ## -1.8438 -0.3438  0.1157  0.4360  0.8562 
+    ## 
+    ## Coefficients:
+    ##                    Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)          4.2843     0.0536  79.934   <2e-16 ***
+    ## tenure_eligibleyes  -0.1406     0.0607  -2.315    0.021 *  
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 0.5413 on 461 degrees of freedom
+    ## Multiple R-squared:  0.0115, Adjusted R-squared:  0.009352 
+    ## F-statistic: 5.361 on 1 and 461 DF,  p-value: 0.02103
+
+## Exercise 4
+
+The $R^2$’s are .012, .012, and .012. Rank does not explain much.
+
+# Part 4
+
 ## Hint
 
 For Exercise 12, the `relevel()` function can be helpful!

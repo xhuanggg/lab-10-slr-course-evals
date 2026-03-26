@@ -81,6 +81,41 @@ The $R^2$ is .035. This indicates beauty ratings explain 3.5% of the variance in
 I assume there will be a lot of uncertainty around the line. At this stage, the substaintial shade may couse the confusion that the model is strong and certain.
 
 # Part 3
+## Exercise 1
+
+The reference level is female. The mean difference in evaluation scores indicates that the mean score male professor is 0.142 point higher than that of female professors.
+```{r}
+m_gen <- lm(score ~ gender, data = evals)
+tidy(m_gen)
+```
+
+```{r}
+evals$rank_relevel <- relevel(evals$rank, ref = "tenure track")
+evals$tenure_eligible <- ifelse(evals$rank == "teaching", "no", "yes")
+```
+
+## Exercise 2
+
+```{r}
+m_rank <- lm(score ~ rank, data = evals)
+m_relevel <- lm(score ~ rank_relevel, data = evals)
+m_tenure <- lm(score ~ tenure_eligible, data = evals)
+```
+
+## Exercise 3
+
+Teaching faculty receives higher scores. Tenured faculty receoives lower scores.
+```{r}
+summary(m_rank)
+summary(m_relevel)
+summary(m_tenure)
+```
+
+## Exercise 4
+
+The $R^2$'s are .012, .012, and .012. Rank does not explain much.
+
+# Part 4
 
 ## Hint
 
