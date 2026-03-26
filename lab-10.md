@@ -70,6 +70,72 @@ ggplot(evals, aes(x = bty_avg, y = score)) +
 
 ## Exercise 1
 
+Fitted regression equation: $$\hat{y} = 3.88034 + 0.06664x$$
+
+This equation suggests that a one-point increase in beauty predicts a
+0.06664-point increase in course evaluation.
+
+``` r
+m_bty <- lm(evals$score ~ evals$bty_avg)
+summary(m_bty)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = evals$score ~ evals$bty_avg)
+    ## 
+    ## Residuals:
+    ##     Min      1Q  Median      3Q     Max 
+    ## -1.9246 -0.3690  0.1420  0.3977  0.9309 
+    ## 
+    ## Coefficients:
+    ##               Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)    3.88034    0.07614   50.96  < 2e-16 ***
+    ## evals$bty_avg  0.06664    0.01629    4.09 5.08e-05 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 0.5348 on 461 degrees of freedom
+    ## Multiple R-squared:  0.03502,    Adjusted R-squared:  0.03293 
+    ## F-statistic: 16.73 on 1 and 461 DF,  p-value: 5.083e-05
+
+## Exercise 2
+
+``` r
+# Visualize the regression lines
+evals$score_p <- predict(m_bty, newdata = evals)
+
+ggplot(evals, aes(x = bty_avg, y = score)) +
+  geom_jitter() +
+  geom_line(aes(y = score_p), color = "red") + 
+  labs(x = "Beauty", y = "Score") +
+  theme_minimal()
+```
+
+![](lab-10_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+
+## Exercise 3
+
+The scores do not much with beauty ratings. That is, a one-point
+increase in beauty predicts a 0.06664-point increase in course
+evaluation scores.
+
+The intercept represents the avergae course evaluation scores of
+professors with a beauty rating of zero. It is more of a mathematical
+artifact in this case because beauty is rated on a scale from 1 to 10.
+Nobody will get a zero in beauty ratings. The meaningful minimum of
+beauty rating is 1.
+
+The $R^2$ is .035. This indicates beauty ratings explain 3.5% of the
+variance in course evaluation scores. This is a minor piece of the
+story.
+
+I assume there will be a lot of uncertainty around the line. At this
+stage, the substaintial shade may couse the confusion that the model is
+strong and certain.
+
+# Part 3
+
 ## Hint
 
 For Exercise 12, the `relevel()` function can be helpful!
