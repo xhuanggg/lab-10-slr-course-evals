@@ -248,6 +248,78 @@ The $R^2$’s are .012, .012, and .012. Rank does not explain much.
 
 # Part 4
 
+``` r
+m_bty_gen <- lm(score ~ bty_avg + gender, data = evals)
+summary(m_bty_gen)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = score ~ bty_avg + gender, data = evals)
+    ## 
+    ## Residuals:
+    ##     Min      1Q  Median      3Q     Max 
+    ## -1.8305 -0.3625  0.1055  0.4213  0.9314 
+    ## 
+    ## Coefficients:
+    ##             Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)  3.74734    0.08466  44.266  < 2e-16 ***
+    ## bty_avg      0.07416    0.01625   4.563 6.48e-06 ***
+    ## gendermale   0.17239    0.05022   3.433 0.000652 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 0.5287 on 460 degrees of freedom
+    ## Multiple R-squared:  0.05912,    Adjusted R-squared:  0.05503 
+    ## F-statistic: 14.45 on 2 and 460 DF,  p-value: 8.177e-07
+
+## Exercise 1
+
+The beauty slope has increased, or become larger in value.
+
+## Exercise 2
+
+The gender slope is still statistically significant. So, yes.
+
+## Exercise 3
+
+The adjusted $R^2$ is .055. Having gender in the model is helpful.
+
+## Exercise 4
+
+Within the same rank of faculty, a one-point increase in beauty rating
+predicts a 0.68-point increase in course evaluation score. Holding
+beauty rating constant, tenure-track and tenured faculty have lower
+course evaluation compared to teaching faculty.
+
+``` r
+m_bty_rank <- lm(score ~ bty_avg + rank, data = evals)
+summary(m_bty_rank)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = score ~ bty_avg + rank, data = evals)
+    ## 
+    ## Residuals:
+    ##     Min      1Q  Median      3Q     Max 
+    ## -1.8713 -0.3642  0.1489  0.4103  0.9525 
+    ## 
+    ## Coefficients:
+    ##                  Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)       3.98155    0.09078  43.860  < 2e-16 ***
+    ## bty_avg           0.06783    0.01655   4.098 4.92e-05 ***
+    ## ranktenure track -0.16070    0.07395  -2.173   0.0303 *  
+    ## ranktenured      -0.12623    0.06266  -2.014   0.0445 *  
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 0.5328 on 459 degrees of freedom
+    ## Multiple R-squared:  0.04652,    Adjusted R-squared:  0.04029 
+    ## F-statistic: 7.465 on 3 and 459 DF,  p-value: 6.88e-05
+
+# Part 5
+
 ## Hint
 
 For Exercise 12, the `relevel()` function can be helpful!
