@@ -143,7 +143,54 @@ summary(m_bty_rank)
 ```
 
 # Part 5
+## Exercise 1
 
-## Hint
+I think cls_level is the worst predictor
 
-For Exercise 12, the `relevel()` function can be helpful!
+## Exercise 2
+
+The slope is not statistically significant.
+```{r}
+m_cls_level <- lm(score ~ cls_level, data = evals)
+summary(m_cls_level)
+```
+
+## Exercise 3
+
+I would not include cls_did_eval. This is cls_perc_eval on a different scale. They are mathematically equivalent in predictive power.
+
+## Exercise 4
+
+```{r}
+full <- lm(score ~ rank + ethnicity + gender + language + age + cls_perc_eval + cls_students + cls_level + cls_profs + cls_credits + bty_avg, data = evals)
+summary(full)
+```
+
+## Exercise 5
+
+This is the best model: score ~ ethnicity + gender + language + age + cls_perc_eval + cls_credits + bty_avg. The regression equation is
+$$\hat{y} = 3.446967 -  0.204710EthnicityMinority - 0.184780GenderFemale - 0.161463LanguageNonEnglish - 0.005008Age + 0.005094ClsPercEval + 0.515065ClsCreditsOneCredit + 0.064996BtyAvg$$
+
+```{r}
+evals$ethnicity <- relevel(evals$ethnicity, ref = "not minority")
+evals$gender <- relevel(evals$gender, ref = "male")
+evals$language <- relevel(evals$language, ref = "english")
+evals$cls_credits <- relevel(evals$cls_credits, ref = "multi credit")
+
+best <- lm(score ~ ethnicity + gender + language + age + cls_perc_eval + cls_credits + bty_avg, data = evals)
+summary(best)
+```
+
+## Exercise 6
+
+Holding everything else constant, a one-point increase in beauty rating predicts a 0.064996-point increase in teaching evaluation score. Holding everything else constant, female faculty's average evaluation score is 0.184780 lower than that of male faculty.
+
+## Exercise 7
+
+A one-credit class with a high percentage of students completing the evaluation taught by a professor who is white, male, educated in an English-speaking school, young, and visually appealing in UT Austin.
+
+## Exercise 8
+
+I am not comfortable generalizing your conclusions to apply to professors generally. These conclusions are sad. Certain demographic features of a professor explains a big part of variance in teaching evaluation. In other words, course evaluation scores are not totally about instructional quality, but also concerns whether the professor fits certain demographic features.
+
+
